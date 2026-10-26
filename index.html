@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empowerment Technology: Using Technology to Empower Learning</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+        
+        /* Dynamic Fluid Typography using clamp() */
+        .text-clamp-hero {
+            font-size: clamp(1.85rem, 4vw + 1rem, 3.75rem);
+            line-height: 1.15;
+        }
+        .text-clamp-title {
+            font-size: clamp(1.5rem, 2.5vw + 0.8rem, 2.5rem);
+            line-height: 1.25;
+        }
+        .text-clamp-subheading {
+            font-size: clamp(1.125rem, 1.5vw + 0.5rem, 1.5rem);
+            line-height: 1.35;
+        }
+        .text-clamp-body {
+            font-size: clamp(0.95rem, 0.8vw + 0.7rem, 1.125rem);
+            line-height: 1.6;
+        }
+
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.35s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+            opacity: 1;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #4f46e5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Mobile Drawer Transition */
+        #mobile-menu-drawer {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #mobile-menu-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Touch Target Adjustments (Minimum 48px for better mobile/tablet tap precision) */
+        .touch-target {
+            min-height: 48px;
+            min-width: 48px;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white w-full overflow-x-hidden">
+
+    <!-- Header & Navigation Bar -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer touch-target" onclick="navigateToPage('home')">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/20 shrink-0">
+                        <i class="fa-solid fa-laptop-code text-xl"></i>
+                    </div>
+                    <span class="font-bold text-base sm:text-xl tracking-tight">E-Tech Portal</span>
+                </div>
+
+                <!-- Desktop Navigation Tabs (Visible on lg screens+) -->
+                <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2">
+                    <button onclick="navigateToPage('home')" id="nav-home" class="nav-btn px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 touch-target flex items-center">
+                        <i class="fa-solid fa-house mr-2 text-base"></i> Home
+                    </button>
+                    <button onclick="navigateToPage('skills')" id="nav-skills" class="nav-btn px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 touch-target flex items-center">
+                        <i class="fa-solid fa-graduation-cap mr-2 text-base"></i> Importance & Skills
+                    </button>
+                    <button onclick="navigateToPage('citizenship')" id="nav-citizenship" class="nav-btn px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 touch-target flex items-center">
+                        <i class="fa-solid fa-shield-halved mr-2 text-base"></i> Benefits & Citizenship
+                    </button>
+                    <button onclick="navigateToPage('experience')" id="nav-experience" class="nav-btn px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 touch-target flex items-center">
+                        <i class="fa-solid fa-book-open mr-2 text-base"></i> My Experience
+                    </button>
+                    <button onclick="navigateToPage('conclusion')" id="nav-conclusion" class="nav-btn px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 touch-target flex items-center">
+                        <i class="fa-solid fa-award mr-2 text-base"></i> Conclusion & Pledge
+                    </button>
+                </nav>
+
+                <!-- Actions (Dark Mode & Mobile/Tablet Menu Toggle) -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <button id="theme-toggle" class="touch-target w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-sky-500" title="Toggle Light/Dark Mode" aria-label="Toggle dark mode">
+                        <i id="theme-toggle-dark-icon" class="fa-solid fa-moon hidden text-lg"></i>
+                        <i id="theme-toggle-light-icon" class="fa-solid fa-sun hidden text-lg text-amber-400"></i>
+                    </button>
+
+                    <!-- Mobile/Tablet menu button -->
+                    <button id="mobile-menu-button" class="lg:hidden touch-target w-11 h-11 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500" aria-label="Open Navigation Menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Drawer & Overlay (For Mobile & Tablet Viewports) -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 pointer-events-none opacity-0 lg:hidden" onclick="toggleMobileMenu(false)"></div>
+    
+    <aside id="mobile-menu-drawer" class="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 z-50 transform translate-x-full lg:hidden flex flex-col justify-between p-6 shadow-2xl">
+        <div class="space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white">
+                        <i class="fa-solid fa-laptop-code text-sm"></i>
+                    </div>
+                    <span class="font-bold text-base">E-Tech Navigation</span>
+                </div>
+                <button onclick="toggleMobileMenu(false)" class="touch-target w-10 h-10 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <nav class="space-y-2">
+                <button onclick="navigateToPage('home')" class="mobile-nav-btn touch-target w-full text-left px-4 py-3 rounded-xl font-medium text-sm flex items-center space-x-3 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-house w-5 text-sky-500 text-lg"></i><span>1. Home / Overview</span>
+                </button>
+                <button onclick="navigateToPage('skills')" class="mobile-nav-btn touch-target w-full text-left px-4 py-3 rounded-xl font-medium text-sm flex items-center space-x-3 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-graduation-cap w-5 text-indigo-500 text-lg"></i><span>2. Importance & Skills</span>
+                </button>
+                <button onclick="navigateToPage('citizenship')" class="mobile-nav-btn touch-target w-full text-left px-4 py-3 rounded-xl font-medium text-sm flex items-center space-x-3 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-shield-halved w-5 text-emerald-500 text-lg"></i><span>3. Benefits & Citizenship</span>
+                </button>
+                <button onclick="navigateToPage('experience')" class="mobile-nav-btn touch-target w-full text-left px-4 py-3 rounded-xl font-medium text-sm flex items-center space-x-3 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-book-open w-5 text-amber-500 text-lg"></i><span>4. My Experience</span>
+                </button>
+                <button onclick="navigateToPage('conclusion')" class="mobile-nav-btn touch-target w-full text-left px-4 py-3 rounded-xl font-medium text-sm flex items-center space-x-3 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i class="fa-solid fa-award w-5 text-purple-500 text-lg"></i><span>5. Conclusion & Pledge</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 text-center">
+            Empowerment Technology &copy; 2026
+        </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 flex-grow w-full">
+
+        <!-- PAGE 1: HOME / OVERVIEW -->
+        <section id="page-home" class="page-section active space-y-8 sm:space-y-12">
+            <!-- Hero Section -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-sky-950 to-indigo-950 text-white p-6 sm:p-10 lg:p-16 shadow-2xl border border-slate-800">
+                <div class="absolute -right-20 -top-20 w-72 h-72 sm:w-96 sm:h-96 bg-sky-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-20 -bottom-20 w-72 h-72 sm:w-96 sm:h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-3xl space-y-4 sm:space-y-6">
+                    <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                        <i class="fa-solid fa-sparkles mr-1.5"></i> Welcome to Educational Tech
+                    </span>
+                    <h1 class="text-clamp-hero font-extrabold tracking-tight">
+                        Empowerment Technology: <span class="bg-gradient-to-r from-sky-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">Using Technology to Empower Learning</span>
+                    </h1>
+                    <p class="text-clamp-body text-slate-300 leading-relaxed">
+                        In today's modern world, technology plays an important role in our daily lives. Empowerment Technology, also known as E-Tech, teaches us how to use digital tools, online platforms, and the internet to communicate, learn, and share information effectively.
+                    </p>
+                    <div class="pt-2 sm:pt-4 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                        <button onclick="navigateToPage('skills')" class="touch-target px-6 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold shadow-lg shadow-sky-500/30 transition-all flex items-center justify-center space-x-2">
+                            <span>Explore Digital Skills</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </button>
+                        <button onclick="navigateToPage('citizenship')" class="touch-target px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold transition-all flex items-center justify-center space-x-2">
+                            <span>Digital Citizenship</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Highlight Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-sky-600 dark:text-sky-400">100%</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Digital Readiness</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">5+</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Core Competencies</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">24/7</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Collaborative Learning</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-purple-600 dark:text-purple-400">Global</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Information Sharing</p>
+                </div>
+            </div>
+
+            <!-- Feature Overview Cards (Balanced Tablet/Desktop Responsive Grid) -->
+            <div class="space-y-6">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <h2 class="text-clamp-title font-bold">Key Pillars of E-Tech</h2>
+                    <p class="text-clamp-body text-slate-600 dark:text-slate-400">Discover how Empowerment Technology transforms modern education and prepares learners for tomorrow.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <h3 class="text-lg font-bold">Digital Communication</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Empowers students to use modern online tools to articulate ideas, present topics, and engage effectively in digital spaces.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-lightbulb"></i>
+                            </div>
+                            <h3 class="text-lg font-bold">Creative Expression</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Develop infographics, design web content, and build interactive projects that make learning creative and memorable.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between md:col-span-2 lg:col-span-1">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-shield-check"></i>
+                            </div>
+                            <h3 class="text-lg font-bold">Responsible Citizenship</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Promotes online safety, media literacy, fact-checking, and ethical digital interactions across global platforms.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 1 BOTTOM NAVIGATION BAR -->
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-end items-center gap-4">
+                <button onclick="navigateToPage('skills')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-all flex items-center justify-center space-x-2 shadow-md">
+                    <span>Next: Importance & Skills</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE 2: IMPORTANCE & SKILLS -->
+        <section id="page-skills" class="page-section space-y-8 sm:space-y-10">
+            <!-- Header Block -->
+            <div class="bg-gradient-to-r from-indigo-900 to-sky-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl space-y-4">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/30 border border-indigo-400/30 text-indigo-200">
+                    <i class="fa-solid fa-code mr-1"></i> Core Competencies
+                </span>
+                <h2 class="text-clamp-title font-extrabold">The Importance of Empowerment Technology</h2>
+                <p class="text-clamp-body text-slate-200 leading-relaxed max-w-4xl">
+                    Empowerment Technology helps students improve their digital skills and become more knowledgeable about modern technology. Through this subject, we learn how to create presentations, design infographics, develop blogs, and use different online platforms. These skills help us complete our school activities and prepare for future careers.
+                </p>
+            </div>
+
+            <!-- Interactive Skill Showcase Cards -->
+            <div class="space-y-6">
+                <h3 class="text-clamp-subheading font-bold">Explore Practical Skills</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+
+                    <!-- Skill 1 -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between hover:border-sky-500 transition-all">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-file-powerpoint"></i>
+                            </div>
+                            <h4 class="text-lg font-bold">Interactive Presentations</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Mastering hyperlinking, custom animations, and slide design to deliver engaging digital lectures and reports.
+                            </p>
+                        </div>
+                        <button onclick="openSkillModal('presentation')" class="touch-target mt-6 w-full py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-600 text-sm font-semibold transition-all text-center flex items-center justify-center">
+                            Launch Live Demo
+                        </button>
+                    </div>
+
+                    <!-- Skill 2 -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between hover:border-indigo-500 transition-all">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-chart-pie"></i>
+                            </div>
+                            <h4 class="text-lg font-bold">Infographic Design</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Transforming complex data into clear, visual stories using color theory, typography, and graphic layout tools.
+                            </p>
+                        </div>
+                        <button onclick="openSkillModal('infographic')" class="touch-target mt-6 w-full py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600 text-sm font-semibold transition-all text-center flex items-center justify-center">
+                            Preview Infographic Builder
+                        </button>
+                    </div>
+
+                    <!-- Skill 3 -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between hover:border-emerald-500 transition-all">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-blog"></i>
+                            </div>
+                            <h4 class="text-lg font-bold">Blogging & Web Publishing</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Publishing articles, managing content management systems (CMS), and sharing insights with online audiences.
+                            </p>
+                        </div>
+                        <button onclick="openSkillModal('blog')" class="touch-target mt-6 w-full py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-600 text-sm font-semibold transition-all text-center flex items-center justify-center">
+                            View Blog Sandbox
+                        </button>
+                    </div>
+
+                    <!-- Skill 4 -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between hover:border-purple-500 transition-all">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-cloud"></i>
+                            </div>
+                            <h4 class="text-lg font-bold">Online Platforms & Cloud Tools</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Utilizing cloud drives, online forms, and collaborative spaces to work together in real-time anywhere.
+                            </p>
+                        </div>
+                        <button onclick="openSkillModal('cloud')" class="touch-target mt-6 w-full py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-purple-500 hover:text-white dark:hover:bg-purple-600 text-sm font-semibold transition-all text-center flex items-center justify-center">
+                            Explore Cloud Workflow
+                        </button>
+                    </div>
+
+                    <!-- Skill 5 -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between hover:border-amber-500 transition-all md:col-span-2 lg:col-span-1">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-gears"></i>
+                            </div>
+                            <h4 class="text-lg font-bold">Hardware & Systems Diagnostic</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Basic computer troubleshooting, understanding system specs, software installation, and network setup.
+                            </p>
+                        </div>
+                        <button onclick="openSkillModal('diagnostic')" class="touch-target mt-6 w-full py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-amber-500 hover:text-white dark:hover:bg-amber-600 text-sm font-semibold transition-all text-center flex items-center justify-center">
+                            Run Diagnostic Test
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 2 BOTTOM NAVIGATION BAR -->
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <button onclick="navigateToPage('home')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                    <span>Previous: Home</span>
+                </button>
+                <button onclick="navigateToPage('citizenship')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-all flex items-center justify-center space-x-2 shadow-md">
+                    <span>Next: Benefits & Citizenship</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE 3: BENEFITS & DIGITAL CITIZENSHIP -->
+        <section id="page-citizenship" class="page-section space-y-8 sm:space-y-10">
+            <!-- Header Block -->
+            <div class="bg-gradient-to-r from-emerald-900 to-teal-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl space-y-4">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/30 border border-emerald-400/30 text-emerald-200">
+                    <i class="fa-solid fa-shield-heart mr-1"></i> Responsible Use
+                </span>
+                <h2 class="text-clamp-title font-extrabold">The Benefits of Technology & Digital Citizenship</h2>
+                <p class="text-clamp-body text-slate-200 leading-relaxed max-w-4xl">
+                    Technology makes learning more convenient and accessible. Students can research information, collaborate with classmates, and share their ideas with people around the world. However, we must also be responsible digital citizens by protecting our privacy, checking the accuracy of information, and respecting others online.
+                </p>
+            </div>
+
+            <!-- Interactive Digital Citizenship Checklist / Assessment -->
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-md space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-700">
+                    <div>
+                        <h3 class="text-xl font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-emerald-500"></i> Digital Citizenship Check
+                        </h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Assess your online habits and measure your responsibility score.</p>
+                    </div>
+                    <div>
+                        <span id="quiz-score-badge" class="inline-block px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                            Score: 0/4 Completed
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-3.5 rounded-full overflow-hidden">
+                    <div id="quiz-progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+
+                <!-- Interactive Checklist Options -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Item 1 -->
+                    <label class="touch-target flex items-start space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer transition-all">
+                        <input type="checkbox" class="quiz-check rounded text-emerald-600 focus:ring-emerald-500 mt-1 w-5 h-5 shrink-0" onchange="updateQuizScore()">
+                        <div>
+                            <span class="font-semibold text-sm sm:text-base block">Privacy Protection</span>
+                            <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">I use strong passwords, two-factor authentication, and keep my personal data private online.</span>
+                        </div>
+                    </label>
+
+                    <!-- Item 2 -->
+                    <label class="touch-target flex items-start space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer transition-all">
+                        <input type="checkbox" class="quiz-check rounded text-emerald-600 focus:ring-emerald-500 mt-1 w-5 h-5 shrink-0" onchange="updateQuizScore()">
+                        <div>
+                            <span class="font-semibold text-sm sm:text-base block">Fact-Checking & Media Literacy</span>
+                            <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">I verify sources and double-check information before sharing articles on social platforms.</span>
+                        </div>
+                    </label>
+
+                    <!-- Item 3 -->
+                    <label class="touch-target flex items-start space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer transition-all">
+                        <input type="checkbox" class="quiz-check rounded text-emerald-600 focus:ring-emerald-500 mt-1 w-5 h-5 shrink-0" onchange="updateQuizScore()">
+                        <div>
+                            <span class="font-semibold text-sm sm:text-base block">Netiquette & Respect</span>
+                            <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">I communicate politely, respect differing viewpoints, and actively discourage cyberbullying.</span>
+                        </div>
+                    </label>
+
+                    <!-- Item 4 -->
+                    <label class="touch-target flex items-start space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 cursor-pointer transition-all">
+                        <input type="checkbox" class="quiz-check rounded text-emerald-600 focus:ring-emerald-500 mt-1 w-5 h-5 shrink-0" onchange="updateQuizScore()">
+                        <div>
+                            <span class="font-semibold text-sm sm:text-base block">Cyber Hygiene & Security</span>
+                            <span class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">I avoid clicking suspicious links, download from official sources, and keep devices updated.</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 text-sm font-medium text-center">
+                    🎉 Excellent! You demonstrate high standards of Digital Citizenship!
+                </div>
+            </div>
+
+            <!-- PAGE 3 BOTTOM NAVIGATION BAR -->
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <button onclick="navigateToPage('skills')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                    <span>Previous: Skills</span>
+                </button>
+                <button onclick="navigateToPage('experience')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-all flex items-center justify-center space-x-2 shadow-md">
+                    <span>Next: My Experience</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE 4: MY LEARNING EXPERIENCE -->
+        <section id="page-experience" class="page-section space-y-8 sm:space-y-10">
+            <!-- Header Block -->
+            <div class="bg-gradient-to-r from-amber-900 to-orange-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl space-y-4">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/30 border border-amber-400/30 text-amber-200">
+                    <i class="fa-solid fa-user-graduate mr-1"></i> Student Perspective
+                </span>
+                <h2 class="text-clamp-title font-extrabold">My Learning Experience</h2>
+                <p class="text-clamp-body text-slate-200 leading-relaxed max-w-4xl">
+                    As a student, I believe that Empowerment Technology is a useful subject because it helps me become more confident in using digital tools. It allows me to express my creativity, improve my communication skills, and discover new ways to complete my schoolwork. Through this subject, I can learn how to use technology not only for entertainment but also for education and personal development.
+                </p>
+            </div>
+
+            <!-- Reflection Journal & Activity Showcase -->
+            <div class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h3 class="text-clamp-subheading font-bold">Project & Reflection Showcase</h3>
+                    <!-- Filter Buttons -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterLogs('all', this)" class="filter-btn touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-sky-500 text-white">All Logs</button>
+                        <button onclick="filterLogs('portfolio', this)" class="filter-btn touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600">E-Portfolio</button>
+                        <button onclick="filterLogs('literacy', this)" class="filter-btn touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600">Digital Literacy</button>
+                        <button onclick="filterLogs('tools', this)" class="filter-btn touch-target px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600">Technical Tools</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" id="log-cards-container">
+                    <!-- Card 1 -->
+                    <div class="log-card portfolio bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-sky-500 uppercase tracking-wider">E-Portfolio Project</span>
+                            <h4 class="font-bold text-lg">Building a Web Portfolio</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Designing a structured web page allowed me to compile my academic outputs in one accessible place.
+                            </p>
+                        </div>
+                        <div class="pt-3 text-xs text-slate-400 border-t border-slate-100 dark:border-slate-700">Outcome: Enhanced layout & coding skills</div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="log-card literacy bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-amber-500 uppercase tracking-wider">Digital Literacy</span>
+                            <h4 class="font-bold text-lg">Infographics & Data Stories</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Learning to present facts visually improved how I summarize complex lessons into digestible graphics.
+                            </p>
+                        </div>
+                        <div class="pt-3 text-xs text-slate-400 border-t border-slate-100 dark:border-slate-700">Outcome: Visual design & synthesis</div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="log-card tools bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3 flex flex-col justify-between md:col-span-2 lg:col-span-1">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-emerald-500 uppercase tracking-wider">Technical Tools</span>
+                            <h4 class="font-bold text-lg">Collaborative Cloud Suite</h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Working simultaneously on shared docs with classmates showed me how efficient digital collaboration can be.
+                            </p>
+                        </div>
+                        <div class="pt-3 text-xs text-slate-400 border-t border-slate-100 dark:border-slate-700">Outcome: Real-time teamwork</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 4 BOTTOM NAVIGATION BAR -->
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <button onclick="navigateToPage('citizenship')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                    <span>Previous: Benefits</span>
+                </button>
+                <button onclick="navigateToPage('conclusion')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-all flex items-center justify-center space-x-2 shadow-md">
+                    <span>Next: Conclusion & Pledge</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- PAGE 5: CONCLUSION & PLEDGE -->
+        <section id="page-conclusion" class="page-section space-y-8 sm:space-y-10">
+            <!-- Header Block -->
+            <div class="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl space-y-4">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/30 border border-purple-400/30 text-purple-200">
+                    <i class="fa-solid fa-flag mr-1"></i> Looking Forward
+                </span>
+                <h2 class="text-clamp-title font-extrabold">Conclusion & Future Outlook</h2>
+                <p class="text-clamp-body text-slate-200 leading-relaxed max-w-4xl">
+                    Empowerment Technology is more than just learning how to use computers and the internet. It teaches us to use technology wisely, creatively, and responsibly. By applying what we learn in E-Tech, we can become skilled digital citizens who use technology to make learning easier and contribute positively to society.
+                </p>
+            </div>
+
+            <!-- Digital Citizenship Pledge Card Generator -->
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-700 shadow-lg space-y-6 sm:space-y-8">
+                <div class="text-center max-w-xl mx-auto space-y-2">
+                    <h3 class="text-clamp-subheading font-bold">Digital Citizenship Commitment</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Generate your personalized E-Tech Responsible Digital Citizenship Pledge card.</p>
+                </div>
+
+                <div class="max-w-md mx-auto space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-600 dark:text-slate-300">Enter Your Full Name</label>
+                        <input type="text" id="pledge-name-input" placeholder="e.g. Maria Santos" class="touch-target w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-sky-500 outline-none transition-all">
+                        <p id="pledge-error" class="hidden text-xs text-rose-500 mt-1 font-medium">Please enter your name to generate your pledge card.</p>
+                    </div>
+                    <button onclick="generatePledgeCard()" class="touch-target w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold shadow-lg shadow-sky-500/20 transition-all flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>Generate Commitment Card</span>
+                    </button>
+                </div>
+
+                <!-- Preview Certificate / Card Container -->
+                <div id="pledge-card-preview" class="hidden mt-8 max-w-2xl mx-auto p-6 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border-2 border-amber-400/40 text-white text-center space-y-6 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+                        <i class="fa-solid fa-award text-8xl sm:text-9xl text-amber-400"></i>
+                    </div>
+
+                    <div class="space-y-1">
+                        <p class="text-xs uppercase tracking-widest text-amber-400 font-bold">Certificate of Commitment</p>
+                        <h4 class="text-xl sm:text-2xl font-extrabold tracking-tight">Responsible Digital Citizen</h4>
+                    </div>
+
+                    <p class="text-xs sm:text-sm text-slate-300 italic">This certifies that</p>
+                    <p id="pledge-display-name" class="text-2xl sm:text-3xl font-bold text-sky-400 underline decoration-amber-400/50 underline-offset-8 break-words">[ Your Name Here ]</p>
+
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-lg mx-auto pt-2">
+                        Pledges to use technology wisely, protect online privacy, respect others across digital spaces, and utilize Empowerment Technology to contribute positively to society.
+                    </p>
+
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-between border-t border-slate-800 text-xs text-slate-400 gap-2">
+                        <span>Issued via E-Tech Portal</span>
+                        <span id="pledge-date">Date</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 5 BOTTOM NAVIGATION BAR -->
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <button onclick="navigateToPage('experience')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition-all flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-arrow-left text-sm"></i>
+                    <span>Previous: Experience</span>
+                </button>
+                <button onclick="navigateToPage('home')" class="touch-target w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all flex items-center justify-center space-x-2 shadow-md">
+                    <i class="fa-solid fa-rotate-right text-sm"></i>
+                    <span>Restart / Go to Home</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Dialog for Skill Demos -->
+    <div id="skill-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-6 border border-slate-200 dark:border-slate-700 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
+                <h3 id="modal-title" class="font-bold text-lg">Skill Preview</h3>
+                <button onclick="closeSkillModal()" class="touch-target w-9 h-9 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="text-sm space-y-3 text-slate-600 dark:text-slate-300 leading-relaxed">
+                <!-- Content injected dynamically -->
+            </div>
+            <div class="pt-3 flex justify-end">
+                <button onclick="closeSkillModal()" class="touch-target px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-xs font-semibold">
+                    Close Preview
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 transition-colors mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+                Empowerment Technology (E-Tech) Educational Showcase &copy; 2026.
+            </p>
+            <p class="text-xs text-slate-400 dark:text-slate-500">
+                Empowering learners through creative, safe, and effective digital technology.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Vanilla JavaScript -->
+    <script>
+        // Page Navigation Logic with Universal Scroll-to-Top
+        function navigateToPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected page
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Update Desktop Nav styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-500', 'text-white');
+                btn.classList.add('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+            });
+
+            const activeNavBtn = document.getElementById('nav-' + pageId);
+            if (activeNavBtn) {
+                activeNavBtn.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+                activeNavBtn.classList.add('bg-sky-500', 'text-white');
+            }
+
+            // Close mobile menu drawer if open
+            toggleMobileMenu(false);
+
+            // Crucial UX Fix: Automatically scroll smoothly to top so user clearly sees new page header
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile / Tablet Menu Drawer Control
+        function toggleMobileMenu(show) {
+            const drawer = document.getElementById('mobile-menu-drawer');
+            const overlay = document.getElementById('mobile-menu-overlay');
+
+            if (show) {
+                overlay.classList.remove('pointer-events-none', 'opacity-0');
+                overlay.classList.add('opacity-100');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        document.getElementById('mobile-menu-button').addEventListener('click', () => toggleMobileMenu(true));
+
+        // Dark Mode Toggle Logic
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        });
+
+        // Skill Modal Previews
+        function openSkillModal(skillType) {
+            const modal = document.getElementById('skill-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            if (skillType === 'presentation') {
+                title.innerText = 'Interactive Presentation Module';
+                body.innerHTML = `
+                    <p>In E-Tech, students master nonlinear presentation techniques using links, action buttons, and visual hierarchy.</p>
+                    <div class="p-3 bg-slate-100 dark:bg-slate-900 rounded-xl space-y-2">
+                        <span class="text-xs font-bold text-sky-500">Key Feature Highlight:</span>
+                        <p class="text-xs">Slide hyperlinking & dynamic trigger animations allow custom navigation flow during live lectures.</p>
+                    </div>`;
+            } else if (skillType === 'infographic') {
+                title.innerText = 'Infographic Design Sandbox';
+                body.innerHTML = `
+                    <p>Infographics combine visual art and concise statistics to communicate ideas effectively.</p>
+                    <div class="p-3 bg-indigo-50 dark:bg-indigo-950/40 rounded-xl space-y-2">
+                        <span class="text-xs font-bold text-indigo-500">Design Tip:</span>
+                        <p class="text-xs">Use consistent color palettes, clear font hierarchy, and minimal clutter to keep readers engaged.</p>
+                    </div>`;
+            } else if (skillType === 'blog') {
+                title.innerText = 'Blogging & Content Creation';
+                body.innerHTML = `
+                    <p>Blogging helps students practice digital writing, content curation, and online audience engagement.</p>
+                    <div class="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl space-y-2">
+                        <span class="text-xs font-bold text-emerald-500">Web Publishing Standard:</span>
+                        <p class="text-xs">Always credit image sources, maintain respectful tone, and organize articles with headings.</p>
+                    </div>`;
+            } else if (skillType === 'cloud') {
+                title.innerText = 'Cloud Platform Integration';
+                body.innerHTML = `
+                    <p>Cloud suites enable real-time collaboration across spreadsheets, documents, and survey forms.</p>
+                    <div class="p-3 bg-purple-50 dark:bg-purple-950/40 rounded-xl space-y-2">
+                        <span class="text-xs font-bold text-purple-500">Collaboration Tip:</span>
+                        <p class="text-xs">Configure share permissions properly ('Viewer' vs 'Editor') to protect document integrity.</p>
+                    </div>`;
+            } else if (skillType === 'diagnostic') {
+                title.innerText = 'System Diagnostic Test';
+                body.innerHTML = `
+                    <p>Understanding fundamental hardware specs and network connectivity troubleshooting.</p>
+                    <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl space-y-2">
+                        <span class="text-xs font-bold text-amber-500">Diagnostic Check:</span>
+                        <p class="text-xs">Verify IP configuration, clear browser cache, and check active RAM usage during heavy tasks.</p>
+                    </div>`;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeSkillModal() {
+            document.getElementById('skill-modal').classList.add('hidden');
+        }
+
+        // Digital Citizenship Checklist Logic
+        function updateQuizScore() {
+            const checkboxes = document.querySelectorAll('.quiz-check');
+            let checkedCount = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) checkedCount++;
+            });
+
+            const percentage = (checkedCount / checkboxes.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = percentage + '%';
+            document.getElementById('quiz-score-badge').innerText = `Score: ${checkedCount}/${checkboxes.length} Completed`;
+
+            const feedback = document.getElementById('quiz-feedback');
+            if (checkedCount === checkboxes.length) {
+                feedback.classList.remove('hidden');
+            } else {
+                feedback.classList.add('hidden');
+            }
+        }
+
+        // Reflection Journal Log Filters
+        function filterLogs(category, btnElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-500', 'text-white');
+                btn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300');
+            });
+            btnElement.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300');
+            btnElement.classList.add('bg-sky-500', 'text-white');
+
+            const cards = document.querySelectorAll('.log-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Digital Citizenship Pledge Generator
+        function generatePledgeCard() {
+            const input = document.getElementById('pledge-name-input');
+            const error = document.getElementById('pledge-error');
+            const preview = document.getElementById('pledge-card-preview');
+            const displayName = document.getElementById('pledge-display-name');
+            const dateDisplay = document.getElementById('pledge-date');
+
+            if (!input.value.trim()) {
+                error.classList.remove('hidden');
+                return;
+            }
+
+            error.classList.add('hidden');
+            displayName.innerText = input.value.trim();
+            dateDisplay.innerText = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            preview.classList.remove('hidden');
+            preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Initialize active page state on load
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateToPage('home');
+        });
+    </script>
+</body>
+</html>
